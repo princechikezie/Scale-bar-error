@@ -83,7 +83,7 @@
     #call up plot 
     scaleplot
 
-![](Scale_bar_files/figure-markdown_strict/unnamed-chunk-1-1.png)
+![](Scale_bar_files/figure-markdown_strict/Scale%20bar%20error%20trials-1.png)
 
      # Wilcoxon signed-rank test (a non-parametric test for paired oridnal data)
         #Assumptions:
@@ -149,3 +149,99 @@
     ## 12         5.5      34.478       26.907 -7.571
     ## 13         6.0      34.478       26.011 -8.467
     ## 14         6.5      34.478       25.439 -9.039
+
+    # Linear regression 
+
+    #Null Hypothesis: The coefficients associated with the variables is equal to zero. 
+    #Alternate hypothesis: The coefficients are not equal to zero (i.e. there exists a relationship between the independent variable in question and the dependent variable).  
+
+    # Assumptions: 
+
+    # There is a linear trend between x and y.
+    # The observations in the sample are independent.
+    # x is measured without error.
+    # The residuals are normally distributed .
+    # The residuals have the same variance for all fitted values of y 
+
+    # Diagnostic plot 1: Quantile-Quantile plot (QQ-plot) 
+    plot(x = diff_df$Distance_cm, y = diff_df$O_R)
+    abline(h = 0)
+
+![](Scale_bar_files/figure-markdown_strict/Scale%20bar%20error%20trials-2.png)
+
+    #Heteroskedasticity 
+
+    # Diagnostic plot 2: Fitted vs residuals plot
+    qqnorm(diff_df$O_R)
+    qqline(diff_df$O_R)
+
+![](Scale_bar_files/figure-markdown_strict/Scale%20bar%20error%20trials-3.png)
+
+    #Skewed residual distribution 
+
+
+    linscale <- glm(O_R ~ Distance_cm, family = 
+                      gaussian(), 
+                    data = diff_df)
+    summary(linscale)
+
+    ## 
+    ## Call:
+    ## glm(formula = O_R ~ Distance_cm, family = gaussian(), data = diff_df)
+    ## 
+    ## Deviance Residuals: 
+    ##      Min        1Q    Median        3Q       Max  
+    ## -0.48815  -0.10985  -0.00435   0.17463   0.36311  
+    ## 
+    ## Coefficients:
+    ##             Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept) -0.36311    0.12387  -2.932   0.0126 *  
+    ## Distance_cm -1.33073    0.03239 -41.085  2.8e-14 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for gaussian family taken to be 0.05966624)
+    ## 
+    ##     Null deviance: 101.43327  on 13  degrees of freedom
+    ## Residual deviance:   0.71599  on 12  degrees of freedom
+    ## AIC: 4.1063
+    ## 
+    ## Number of Fisher Scoring iterations: 2
+
+    #Regression coefficients:
+    #Intercept = -0.36, t(13) = -2.93, p-value < 0.05
+    #Distance_cm = -1.33, t(13) = 0.-41.09, p-value < 0.001
+
+    #Interpretation:
+      #As the p-value for regression coefficients Intercept (p-value < 0.001) & interest_rate (p-value ) we reject the null hypothesis, thus the coefficients are not equal to zero (i.e. there exists a relationship between the independent variable in question and the dependent variable).  
+
+
+    # Correlation assesses the linear association or strength of relationship between two variables.
+
+    #Spearman’s rank correlation: 
+
+    # H0: There is no signifiant association between the two variables.
+    # H1: There is a significant association between the two variables.
+
+    # Assumptions:
+    #Variables measured on an ordinal or interval or ratio scale
+    #There is a monotonic relationship between the variables
+
+    cor_scale <- with(diff_df,
+    cor.test(x = Distance_cm, y = O_R,
+        method = 'spearman'))
+    # rho(13) = -1,  p-value < 0.001 
+    # Interpretation 
+    # As p-value < 0.001, we reject H0, thus there is significant association between the two variables
+
+    cor_scale
+
+    ## 
+    ##  Spearman's rank correlation rho
+    ## 
+    ## data:  Distance_cm and O_R
+    ## S = 910, p-value < 2.2e-16
+    ## alternative hypothesis: true rho is not equal to 0
+    ## sample estimates:
+    ## rho 
+    ##  -1

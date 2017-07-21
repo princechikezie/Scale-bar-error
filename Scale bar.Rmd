@@ -2,7 +2,7 @@
 title: "Scale bar"
 author: Prince Chikezie
 date: 2017-07-21
-output: html_document
+output: md_document
 ---
 
 ```{r Scale bar error trials }
