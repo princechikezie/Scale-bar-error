@@ -66,11 +66,62 @@ diff_df <- scale_df %>%
 #Print
 diff_df
 
+# Linear regression 
+
+#Null Hypothesis: The coefficients associated with the variables is equal to zero. 
+#Alternate hypothesis: The coefficients are not equal to zero (i.e. there exists a relationship between the independent variable in question and the dependent variable).  
+
+# Assumptions: 
+
+# There is a linear trend between x and y.
+# The observations in the sample are independent.
+# x is measured without error.
+# The residuals are normally distributed .
+# The residuals have the same variance for all fitted values of y 
+
+# Diagnostic plot 1: Quantile-Quantile plot (QQ-plot) 
+plot(x = diff_df$Distance_cm, y = diff_df$O_R)
+abline(h = 0)
+#Heteroskedasticity 
+
+# Diagnostic plot 2: Fitted vs residuals plot
+qqnorm(diff_df$O_R)
+qqline(diff_df$O_R)
+#Skewed residual distribution 
 
 
+linscale <- glm(O_R ~ Distance_cm, family = 
+                  gaussian(), 
+                data = diff_df)
+summary(linscale)
+
+#Regression coefficients:
+#Intercept = -0.36, t(13) = -2.93, p-value < 0.05
+#Distance_cm = -1.33, t(13) = 0.-41.09, p-value < 0.001
+
+#Interpretation:
+  #As the p-value for regression coefficients Intercept (p-value < 0.001) & interest_rate (p-value ) we reject the null hypothesis, thus the coefficients are not equal to zero (i.e. there exists a relationship between the independent variable in question and the dependent variable).  
 
 
+# Correlation assesses the linear association or strength of relationship between two variables.
 
+#Spearman’s rank correlation: 
+
+# H0: There is no signifiant association between the two variables.
+# H1: There is a significant association between the two variables.
+
+# Assumptions:
+#Variables measured on an ordinal or interval or ratio scale
+#There is a monotonic relationship between the variables
+
+cor_scale <- with(diff_df,
+cor.test(x = Distance_cm, y = O_R,
+    method = 'spearman'))
+# rho(13) = -1,  p-value < 0.001 
+# Interpretation 
+# As p-value < 0.001, we reject H0, thus there is significant association between the two variables
+
+cor_scale
 
 ```
 
