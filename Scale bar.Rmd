@@ -1,5 +1,6 @@
 ---
-title: "Scale bar"
+title: "Scale bar calibration significance"
+subtitle: "Scaling of Cerebral blood flow rate and brain size- human ontogeny"
 author: Prince Chikezie
 date: 2017-07-21
 output: md_document
